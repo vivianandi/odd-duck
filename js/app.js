@@ -1,10 +1,14 @@
 state = {
   products: [],
+  maxVotes: 25,
+  votesCast: 0,
 }
 
 let productImage1 = document.querySelector('.product1 img');
 let productImage2 = document.querySelector('.product2 img');
 let productImage3 = document.querySelector('.product3 img');
+let productContainer = document.querySelector('.products');
+let results = document.querySelector('.results');
 
 //Constructor
 function Product(name, src) {
@@ -29,33 +33,55 @@ function renderProducts() {
   let product2 = getRandomNumber();
   let product3 = getRandomNumber();
 
-  //loop to not show same pic - will delete thses lines soon!
-  //while (product1 === product2) {
-  //    product2 = getRandomNumber();
-  //  }
-  //  while (product1 === product3) {
-  //    product3 = getRandomNumber();
-  //  }
-  //  while (product2 === product3) {
-  //    product3 = getRandomNumber();
-  //  }
-  const productIndices = [product1, product2, product3];
-
-  for (let i = 0; i < productIndices.length; i++) {
-    //Nested loop to compare the current element with the rest of the elements
-    for (let j = i + 1; j < productIndices.length; j++) {
-      while (productIndices[i] === productIndices[j]) {
-        productIndices[j] = getRandomNumber();
-      }
-    }
+  //TODO: loop to not show same pic -  combine in one loop
+  while (product1 === product2) {
+    product2 = getRandomNumber();
+  }
+  while (product1 === product3) {
+    product3 = getRandomNumber();
+  }
+  while (product2 === product3) {
+    product3 = getRandomNumber();
   }
 
-  const [newProduct1, newProduct2, newProduct3] = productIndices;
-
   productImage1.src = state.products[product1].src;
+  productImage1.alt = state.products[product1].name;
   productImage2.src = state.products[product2].src;
+  productImage1.alt = state.products[product1].name;
   productImage3.src = state.products[product3].src;
+  productImage3.alt = state.products[product3].name;
+
+  state.products[product1].views++;
+  state.products[product2].views++;
+  state.products[product3].views++;
+
+  console.log(state.products);
 }
+
+function showTotals() {
+  for (let i = 0; i < state.products.length; i++) {
+    let productData = document.createElement("div");
+    productData.textContent = `${state.products[i].name} had ${state.products[i].votes} votes and was shown ${state.products[i].views} times.`;
+    results.appendChild(productData);
+  }
+}
+
+//add event listener for clicks, plus add votes
+productContainer.addEventListener("click", (event) => {
+  let name = event.target.alt;
+  for (let i = 0; i < state.products.length; i++) {
+    if (state.products[i].name === name) {
+      state.products[i].votes++;
+      break;
+    }
+  }
+  state.votesCast++;
+  if (state.votesCast >= state.maxVotes) {
+    showTotals();
+  } else {
+    renderProducts();
+  }
+});
 
 //Instances
 let bag = new Product('Bag', '/img/assets/bag.jpg')
