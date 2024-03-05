@@ -1,0 +1,45 @@
+.container {
+  display: grid;
+  grid-template-columns: 7.5% 0.1fr 25% 25% 25% 0.1fr 7.5%;
+  grid-template-rows: 101.9px 2.9fr 2.2fr 98.6px;
+  gap: 15px 15px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "header header header header header header header"
+    ". . picture1 picture2 picture3 . ."
+    ". . results results results . ."
+    "footer footer footer footer footer footer footer";
+}
+
+.header,
+.footer,
+.picture1,
+.picture2,
+.picture3,
+.results {
+  border: 1px solid black;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.header {
+  grid-area: header;
+}
+
+.picture1 {
+  grid-area: picture1;
+}
+
+.picture2 {
+  grid-area: picture2;
+}
+
+.picture3 {
+  grid-area: picture3;
+}
+
+.results {
+  grid-area: results;
+}
