@@ -47,7 +47,7 @@ function renderProducts() {
   productImage1.src = state.products[product1].src;
   productImage1.alt = state.products[product1].name;
   productImage2.src = state.products[product2].src;
-  productImage1.alt = state.products[product1].name;
+  productImage2.alt = state.products[product2].name;
   productImage3.src = state.products[product3].src;
   productImage3.alt = state.products[product3].name;
 
@@ -67,6 +67,7 @@ function showTotals() {
 }
 
 //add event listener for clicks, plus add votes
+//TODO: stop event listener
 productContainer.addEventListener("click", (event) => {
   let name = event.target.alt;
   for (let i = 0; i < state.products.length; i++) {
@@ -82,6 +83,7 @@ productContainer.addEventListener("click", (event) => {
     renderProducts();
   }
 });
+
 
 //Instances
 let bag = new Product('Bag', '/img/assets/bag.jpg')
@@ -106,3 +108,6 @@ let wineGlass = new Product('Wine Glass', '/img/assets/wine-glass.jpg')
 
 //Render products
 renderProducts()
+
+//TO DO : WIP view results/event listener button
+//document.getElementById("viewResults").addEventListener("click", showTotals);
