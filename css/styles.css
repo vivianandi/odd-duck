@@ -41,9 +41,9 @@
 
 .header,
 .footer,
-.picture1,
-.picture2,
-.picture3,
+.product1,
+.product2,
+.product3,
 .results {
   border: 1px solid black;
 }
@@ -56,16 +56,16 @@
   grid-area: header;
 }
 
-.picture1 {
-  grid-area: picture1;
+.product1 {
+  grid-area: product1;
 }
 
-.picture2 {
-  grid-area: picture2;
+.product2 {
+  grid-area: product2;
 }
 
-.picture3 {
-  grid-area: picture3;
+.product3 {
+  grid-area: product3;
 }
 
 .results {
@@ -74,4 +74,19 @@
 
 img {
   width: 150px;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  margin: 20px;
+}
+
+h1 {
+  color: navy;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
