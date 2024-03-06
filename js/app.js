@@ -85,7 +85,7 @@ productContainer.addEventListener("click", (event) => {
 });
 
 
-//Instances
+//TODO: loop for Instances
 let bag = new Product('Bag', '/img/assets/bag.jpg')
 let banana = new Product('Banana', '/img/assets/banana.jpg')
 let bathroom = new Product('Bathroom', '/img/assets/bathroom.jpg')
