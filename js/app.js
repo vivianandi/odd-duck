@@ -59,11 +59,61 @@ function renderProducts() {
 }
 
 function showTotals() {
+
+  let productNames = [];
+  let productVotes = [];
+  let productViews = [];
   for (let i = 0; i < state.products.length; i++) {
-    let productData = document.createElement("div");
-    productData.textContent = `${state.products[i].name} had ${state.products[i].votes} votes and was shown ${state.products[i].views} times.`;
-    results.appendChild(productData);
+    productNames.push(state.products[i].name);
+    productVotes.push(state.products[i].votes);
+    productViews.push(state.products[i].views);
   }
+
+  //create a canvas context 
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+  //chart js options
+  let options = {
+    type: 'bar',
+    data: {
+      labels: productNames,
+      datasets: [
+        {
+          label: '# of Votes',
+          data: productVotes,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+          ],
+          borderWidth: 1
+        },
+        {
+          label: '# of Views',
+          data: productViews,
+          backgroundColor: [
+            'rgba(0, 0, 255, 0.2)',
+          ],
+          borderColor: [
+            'rgba(0, 0, 255, 1)',
+          ],
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+
+  //make a new chart with the canvas context with some options
+  const myChart = new Chart(ctx, options);
+
 }
 
 //add event listener for clicks, plus add votes
@@ -79,35 +129,32 @@ productContainer.addEventListener("click", (event) => {
   state.votesCast++;
   if (state.votesCast >= state.maxVotes) {
     showTotals();
+    productContainer.removeEventListener("click", (event));
   } else {
     renderProducts();
   }
 });
 
-
 //TODO: loop for Instances
-let bag = new Product('Bag', '/img/assets/bag.jpg')
-let banana = new Product('Banana', '/img/assets/banana.jpg')
-let bathroom = new Product('Bathroom', '/img/assets/bathroom.jpg')
-let boots = new Product('Boots', '/img/assets/boots.jpg')
-let breakfast = new Product('Breakfast', '/img/assets/breakfast.jpg')
-let bubblegum = new Product('Bubblegum', '/img/assets/bubblegum.jpg')
-let chair = new Product('Chair', '/img/assets/chair.jpg')
-let cthulhu = new Product('Cthulhu', '/img/assets/cthulhu.jpg')
-let dogDuck = new Product('Dog Duck', '/img/assets/dog-duck.jpg')
-let dragon = new Product('Dragon', '/img/assets/dragon.jpg')
-let pen = new Product('Pen', '/img/assets/pen.jpg')
-let petSweep = new Product('Pet Sweep', '/img/assets/pet-sweep.jpg')
-let scissors = new Product('Scissors', '/img/assets/scissors.jpg')
-let shark = new Product('Shark', '/img/assets/shark.jpg')
-let sweep = new Product('Sweep', '/img/assets/sweep.png')
-let tauntaun = new Product('Tauntaun', '/img/assets/tauntaun.jpg')
-let unicorn = new Product('Unicorn', '/img/assets/unicorn.jpg')
-let waterCan = new Product('Water Can', '/img/assets/water-can.jpg')
-let wineGlass = new Product('Wine Glass', '/img/assets/wine-glass.jpg')
+let bag = new Product('Bag', './assets/bag.jpg')
+let banana = new Product('Banana', './assets/banana.jpg')
+let bathroom = new Product('Bathroom', './assets/bathroom.jpg')
+let boots = new Product('Boots', './assets/boots.jpg')
+let breakfast = new Product('Breakfast', './assets/breakfast.jpg')
+let bubblegum = new Product('Bubblegum', './assets/bubblegum.jpg')
+let chair = new Product('Chair', './assets/chair.jpg')
+let cthulhu = new Product('Cthulhu', './assets/cthulhu.jpg')
+let dogDuck = new Product('Dog Duck', './assets/dog-duck.jpg')
+let dragon = new Product('Dragon', './assets/dragon.jpg')
+let pen = new Product('Pen', './assets/pen.jpg')
+let petSweep = new Product('Pet Sweep', './assets/pet-sweep.jpg')
+let scissors = new Product('Scissors', './assets/scissors.jpg')
+let shark = new Product('Shark', './assets/shark.jpg')
+let sweep = new Product('Sweep', './assets/sweep.png')
+let tauntaun = new Product('Tauntaun', './assets/tauntaun.jpg')
+let unicorn = new Product('Unicorn', './assets/unicorn.jpg')
+let waterCan = new Product('Water Can', './assets/water-can.jpg')
+let wineGlass = new Product('Wine Glass', './assets/wine-glass.jpg')
 
 //Render products
 renderProducts()
-
-//TO DO : WIP view results/event listener button
-//document.getElementById("viewResults").addEventListener("click", showTotals);
