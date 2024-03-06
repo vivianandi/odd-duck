@@ -2,6 +2,7 @@ state = {
   products: [],
   maxVotes: 25,
   votesCast: 0,
+  previousPageProducts: [],
 }
 
 let productImage1 = document.querySelector('.product1 img');
@@ -20,9 +21,20 @@ function Product(name, src) {
 
 }
 
-//Generate random numebr
+// //Generate random numebr
+// function getRandomNumber() {
+//   return Math.floor(Math.random() * state.products.length);
+// }
+//new generate random numebr function
 function getRandomNumber() {
-  return Math.floor(Math.random() * state.products.length);
+  let randomNumber = Math.floor(Math.random() * state.products.length);
+
+  //checks if new rando number already par tof prev page, if so product of the [i] was already on prev page, so new random num 
+  while (state.previousPageProducts.includes(randomNumber)) {
+    randomNumber = Math.floor(Math.random() * state.products.length);
+  }
+
+  return randomNumber;
 }
 
 //Function render products
@@ -136,25 +148,25 @@ productContainer.addEventListener("click", (event) => {
 });
 
 //TODO: loop for Instances
-let bag = new Product('Bag', './assets/bag.jpg')
-let banana = new Product('Banana', './assets/banana.jpg')
-let bathroom = new Product('Bathroom', './assets/bathroom.jpg')
-let boots = new Product('Boots', './assets/boots.jpg')
-let breakfast = new Product('Breakfast', './assets/breakfast.jpg')
-let bubblegum = new Product('Bubblegum', './assets/bubblegum.jpg')
-let chair = new Product('Chair', './assets/chair.jpg')
-let cthulhu = new Product('Cthulhu', './assets/cthulhu.jpg')
-let dogDuck = new Product('Dog Duck', './assets/dog-duck.jpg')
-let dragon = new Product('Dragon', './assets/dragon.jpg')
-let pen = new Product('Pen', './assets/pen.jpg')
-let petSweep = new Product('Pet Sweep', './assets/pet-sweep.jpg')
-let scissors = new Product('Scissors', './assets/scissors.jpg')
-let shark = new Product('Shark', './assets/shark.jpg')
-let sweep = new Product('Sweep', './assets/sweep.png')
-let tauntaun = new Product('Tauntaun', './assets/tauntaun.jpg')
-let unicorn = new Product('Unicorn', './assets/unicorn.jpg')
-let waterCan = new Product('Water Can', './assets/water-can.jpg')
-let wineGlass = new Product('Wine Glass', './assets/wine-glass.jpg')
+let bag = new Product('Bag', 'assets/bag.jpg')
+let banana = new Product('Banana', 'assets/banana.jpg')
+let bathroom = new Product('Bathroom', 'assets/bathroom.jpg')
+let boots = new Product('Boots', 'assets/boots.jpg')
+let breakfast = new Product('Breakfast', 'assets/breakfast.jpg')
+let bubblegum = new Product('Bubblegum', 'assets/bubblegum.jpg')
+let chair = new Product('Chair', 'assets/chair.jpg')
+let cthulhu = new Product('Cthulhu', 'assets/cthulhu.jpg')
+let dogDuck = new Product('Dog Duck', 'assets/dog-duck.jpg')
+let dragon = new Product('Dragon', 'assets/dragon.jpg')
+let pen = new Product('Pen', 'assets/pen.jpg')
+let petSweep = new Product('Pet Sweep', 'assets/pet-sweep.jpg')
+let scissors = new Product('Scissors', 'assets/scissors.jpg')
+let shark = new Product('Shark', 'assets/shark.jpg')
+let sweep = new Product('Sweep', 'assets/sweep.png')
+let tauntaun = new Product('Tauntaun', 'assets/tauntaun.jpg')
+let unicorn = new Product('Unicorn', 'assets/unicorn.jpg')
+let waterCan = new Product('Water Can', 'assets/water-can.jpg')
+let wineGlass = new Product('Wine Glass', 'assets/wine-glass.jpg')
 
 //Render products
 renderProducts()

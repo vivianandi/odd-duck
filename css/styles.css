@@ -86,10 +86,10 @@ body {
 }
 
 h1 {
-  color: navy;
+  color: blue;
 }
 
-img {
+.products img {
   max-width: 100%;
   height: auto;
 }
