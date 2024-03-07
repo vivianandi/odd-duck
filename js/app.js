@@ -1,9 +1,19 @@
-const state = {
-  products: [],
+'use strict';
+
+let state = {
+  products: [], // Initialize the products array
   maxVotes: 25,
   votesCast: 0,
   previousPageProducts: [],
 };
+
+// Check if there is existing data in localStorage
+if (localStorage.getItem('productApp')) {
+  state = JSON.parse(localStorage.getItem('productApp'));
+} else {
+  // If no existing data, create products and render them
+  renderProducts();
+}
 
 let productImage1 = document.querySelector('.product1 img');
 let productImage2 = document.querySelector('.product2 img');
@@ -20,38 +30,34 @@ function Product(name, src) {
   state.products.push(this);
 }
 
-function getRandomNumber() {
-  return Math.floor(Math.random() * state.products.length);
-}
-
-let product1, product2, product3;
-
+// Function render products
 function renderProducts() {
-  let newProducts;
+  let product1, product2, product3;
 
   do {
-    newProducts = [getRandomNumber(), getRandomNumber(), getRandomNumber()];
-  } while (
-    newProducts.some((product, index) =>
-      newProducts.includes(state.previousPageProducts[index]) ||
-      newProducts.indexOf(product) !== index
-    )
-  );
+    product1 = getRandomNumber();
+    product2 = getRandomNumber();
+    product3 = getRandomNumber();
+  } while (product1 === product2 || product1 === product3 || product2 === product3);
 
-  state.previousPageProducts = newProducts;
+  productImage1.src = state.products[product1].src;
+  productImage1.alt = state.products[product1].name;
+  productImage2.src = state.products[product2].src;
+  productImage2.alt = state.products[product2].name;
+  productImage3.src = state.products[product3].src;
+  productImage3.alt = state.products[product3].name;
 
-  [productImage1, productImage2, productImage3].forEach((image, index) => {
-    image.src = state.products[newProducts[index]].src;
-    image.alt = state.products[newProducts[index]].name;
-    state.products[newProducts[index]].views++;
-  });
+  state.products[product1].views++;
+  state.products[product2].views++;
+  state.products[product3].views++;
+
+  console.log(state.products);
 }
 
 function showTotals() {
   let productNames = [];
   let productVotes = [];
   let productViews = [];
-
   for (let i = 0; i < state.products.length; i++) {
     productNames.push(state.products[i].name);
     productVotes.push(state.products[i].votes);
@@ -96,7 +102,9 @@ function showTotals() {
   const myChart = new Chart(ctx, options);
 }
 
-function handleProductClick(event) {
+// add event listener for clicks, plus add votes
+// TODO: stop event listener
+function clickHandler(event) {
   let name = event.target.alt;
   for (let i = 0; i < state.products.length; i++) {
     if (state.products[i].name === name) {
@@ -105,37 +113,40 @@ function handleProductClick(event) {
     }
   }
   state.votesCast++;
-
   if (state.votesCast >= state.maxVotes) {
+    // Save the state to localStorage
+    localStorage.setItem('productApp', JSON.stringify(state));
+
     showTotals();
-    productContainer.removeEventListener('click', handleProductClick);
+    // Remove the event listener using the same function reference
+    productContainer.removeEventListener('click', clickHandler);
   } else {
     renderProducts();
   }
 }
 
-//TODO: loop for Instances
-let bag = new Product('Bag', './assets/bag.jpg')
-let banana = new Product('Banana', './assets/banana.jpg')
-let bathroom = new Product('Bathroom', './assets/bathroom.jpg')
-let boots = new Product('Boots', './assets/boots.jpg')
-let breakfast = new Product('Breakfast', './assets/breakfast.jpg')
-let bubblegum = new Product('Bubblegum', './assets/bubblegum.jpg')
-let chair = new Product('Chair', './assets/chair.jpg')
-let cthulhu = new Product('Cthulhu', './assets/cthulhu.jpg')
-let dogDuck = new Product('Dog Duck', './assets/dog-duck.jpg')
-let dragon = new Product('Dragon', './assets/dragon.jpg')
-let pen = new Product('Pen', './assets/pen.jpg')
-let petSweep = new Product('Pet Sweep', './assets/pet-sweep.jpg')
-let scissors = new Product('Scissors', './assets/scissors.jpg')
-let shark = new Product('Shark', './assets/shark.jpg')
-let sweep = new Product('Sweep', './assets/sweep.png')
-let tauntaun = new Product('Tauntaun', './assets/tauntaun.jpg')
-let unicorn = new Product('Unicorn', './assets/unicorn.jpg')
-let waterCan = new Product('Water Can', './assets/water-can.jpg')
-let wineGlass = new Product('Wine Glass', './assets/wine-glass.jpg')
+productContainer.addEventListener('click', clickHandler);
 
-//Render products
-renderProducts()
+// TODO: loop for Instances
+let bag = new Product('Bag', './assets/bag.jpg');
+let banana = new Product('Banana', './assets/banana.jpg');
+let bathroom = new Product('Bathroom', './assets/bathroom.jpg');
+let boots = new Product('Boots', './assets/boots.jpg');
+let breakfast = new Product('Breakfast', './assets/breakfast.jpg');
+let bubblegum = new Product('Bubblegum', './assets/bubblegum.jpg');
+let chair = new Product('Chair', './assets/chair.jpg');
+let cthulhu = new Product('Cthulhu', './assets/cthulhu.jpg');
+let dogDuck = new Product('Dog Duck', './assets/dog-duck.jpg');
+let dragon = new Product('Dragon', './assets/dragon.jpg');
+let pen = new Product('Pen', './assets/pen.jpg');
+let petSweep = new Product('Pet Sweep', './assets/pet-sweep.jpg');
+let scissors = new Product('Scissors', './assets/scissors.jpg');
+let shark = new Product('Shark', './assets/shark.jpg');
+let sweep = new Product('Sweep', './assets/sweep.png');
+let tauntaun = new Product('Tauntaun', './assets/tauntaun.jpg');
+let unicorn = new Product('Unicorn', './assets/unicorn.jpg');
+let waterCan = new Product('Water Can', './assets/water-can.jpg');
+let wineGlass = new Product('Wine Glass', './assets/wine-glass.jpg');
 
-productContainer.addEventListener('click', handleProductClick);
+// Render products
+renderProducts();
