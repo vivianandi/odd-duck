@@ -1,7 +1,7 @@
 'use strict';
 
 let state = {
-  products: [], // Initialize the products array
+  products: [],
   maxVotes: 25,
   votesCast: 0,
   previousPageProducts: [],
@@ -21,7 +21,7 @@ let productImage3 = document.querySelector('.product3 img');
 let productContainer = document.querySelector('.products');
 let results = document.querySelector('.results');
 
-// Constructor
+// Constructor for Product
 function Product(name, src) {
   this.name = name;
   this.src = src;
@@ -30,7 +30,34 @@ function Product(name, src) {
   state.products.push(this);
 }
 
-// Function render products
+// Load from local storage --or-- create products
+function loadProducts() {
+  let savedProducts = localStorage.getItem('productApp');
+
+  if (savedProducts) {
+    try {
+      state = JSON.parse(savedProducts);
+    } catch (error) {
+      console.error('Error parsing localStorage data:', error);
+      state = { products: [], maxVotes: 25, votesCast: 0, previousPageProducts: [] };
+    }
+  } else {
+    renderProducts();
+  }
+  console.log('state.products:', state.products);
+}
+
+// Save the products to local storage
+function saveProducts() {
+  let stringifiedProducts = JSON.stringify(state);
+  localStorage.setItem('productApp', stringifiedProducts);
+}
+
+function getRandomNumber() {
+  return Math.floor(Math.random() * state.products.length);
+}
+
+// Render products
 function renderProducts() {
   let product1, product2, product3;
 
@@ -64,10 +91,8 @@ function showTotals() {
     productViews.push(state.products[i].views);
   }
 
-  // create a canvas context
   const ctx = document.getElementById('myChart').getContext('2d');
 
-  // chart js options
   let options = {
     type: 'bar',
     data: {
@@ -98,12 +123,9 @@ function showTotals() {
     },
   };
 
-  // make a new chart with the canvas context with some options
   const myChart = new Chart(ctx, options);
 }
 
-// add event listener for clicks, plus add votes
-// TODO: stop event listener
 function clickHandler(event) {
   let name = event.target.alt;
   for (let i = 0; i < state.products.length; i++) {
@@ -114,11 +136,8 @@ function clickHandler(event) {
   }
   state.votesCast++;
   if (state.votesCast >= state.maxVotes) {
-    // Save the state to localStorage
     localStorage.setItem('productApp', JSON.stringify(state));
-
     showTotals();
-    // Remove the event listener using the same function reference
     productContainer.removeEventListener('click', clickHandler);
   } else {
     renderProducts();
@@ -127,7 +146,6 @@ function clickHandler(event) {
 
 productContainer.addEventListener('click', clickHandler);
 
-// TODO: loop for Instances
 let bag = new Product('Bag', './assets/bag.jpg');
 let banana = new Product('Banana', './assets/banana.jpg');
 let bathroom = new Product('Bathroom', './assets/bathroom.jpg');
@@ -148,5 +166,7 @@ let unicorn = new Product('Unicorn', './assets/unicorn.jpg');
 let waterCan = new Product('Water Can', './assets/water-can.jpg');
 let wineGlass = new Product('Wine Glass', './assets/wine-glass.jpg');
 
-// Render products
+// Load and render products
+loadProducts();
 renderProducts();
+
