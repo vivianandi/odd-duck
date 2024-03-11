@@ -7,20 +7,6 @@ let state = {
   previousPageProducts: [],
 };
 
-// Check if there is existing data in localStorage
-if (localStorage.getItem('productApp')) {
-  state = JSON.parse(localStorage.getItem('productApp'));
-} else {
-  // If no existing data, create products and render them
-  renderProducts();
-}
-
-let productImage1 = document.querySelector('.product1 img');
-let productImage2 = document.querySelector('.product2 img');
-let productImage3 = document.querySelector('.product3 img');
-let productContainer = document.querySelector('.products');
-let results = document.querySelector('.results');
-
 // Constructor for Product
 function Product(name, src) {
   this.name = name;
@@ -30,7 +16,7 @@ function Product(name, src) {
   state.products.push(this);
 }
 
-let bag = new Product('Bag', './assets/bag.jpg');
+let bag = new Product("Bag", "./assets/bag.jpg");
 let banana = new Product('Banana', './assets/banana.jpg');
 let bathroom = new Product('Bathroom', './assets/bathroom.jpg');
 let boots = new Product('Boots', './assets/boots.jpg');
@@ -50,22 +36,12 @@ let unicorn = new Product('Unicorn', './assets/unicorn.jpg');
 let waterCan = new Product('Water Can', './assets/water-can.jpg');
 let wineGlass = new Product('Wine Glass', './assets/wine-glass.jpg');
 
-// Load from local storage --or-- create products
-function loadProducts() {
-  let savedProducts = localStorage.getItem('productApp');
+let productImage1 = document.querySelector('.product1 img');
+let productImage2 = document.querySelector('.product2 img');
+let productImage3 = document.querySelector('.product3 img');
+let productContainer = document.querySelector('.products');
+let results = document.querySelector('.results');
 
-  if (savedProducts) {
-    try {
-      state = JSON.parse(savedProducts);
-    } catch (error) {
-      console.error('Error parsing localStorage data:', error);
-      state = { products: [], maxVotes: 25, votesCast: 0, previousPageProducts: [] };
-    }
-  } else {
-    renderProducts();
-  }
-  console.log('state.products:', state.products);
-}
 
 // Save the products to local storage
 function saveProducts() {
@@ -99,6 +75,23 @@ function renderProducts() {
   state.products[product3].views++;
 
   console.log(state.products);
+}
+
+// Load from local storage --or-- create products
+function loadProducts() {
+  let savedProducts = localStorage.getItem('productApp');
+
+  if (savedProducts) {
+    try {
+      state = JSON.parse(savedProducts);
+    } catch (error) {
+      console.error('Error parsing localStorage data:', error);
+      state = { products: [], maxVotes: 25, votesCast: 0, previousPageProducts: [] };
+    }
+  } else {
+    renderProducts();
+  }
+  console.log('state.products:', state.products);
 }
 
 function showTotals() {
@@ -168,9 +161,18 @@ function clickHandler(event) {
   }
 }
 
+// Check if there is existing data in localStorage
+if (localStorage.getItem('productApp')) {
+  state = JSON.parse(localStorage.getItem('productApp'));
+} else {
+  // If no existing data, create products and render them
+  renderProducts();
+}
+
 productContainer.addEventListener('click', clickHandler);
 
 // Load and render products
 renderProducts();
 loadProducts();
+
 
