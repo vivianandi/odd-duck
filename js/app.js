@@ -30,6 +30,26 @@ function Product(name, src) {
   state.products.push(this);
 }
 
+let bag = new Product('Bag', './assets/bag.jpg');
+let banana = new Product('Banana', './assets/banana.jpg');
+let bathroom = new Product('Bathroom', './assets/bathroom.jpg');
+let boots = new Product('Boots', './assets/boots.jpg');
+let breakfast = new Product('Breakfast', './assets/breakfast.jpg');
+let bubblegum = new Product('Bubblegum', './assets/bubblegum.jpg');
+let chair = new Product('Chair', './assets/chair.jpg');
+let cthulhu = new Product('Cthulhu', './assets/cthulhu.jpg');
+let dogDuck = new Product('Dog Duck', './assets/dog-duck.jpg');
+let dragon = new Product('Dragon', './assets/dragon.jpg');
+let pen = new Product('Pen', './assets/pen.jpg');
+let petSweep = new Product('Pet Sweep', './assets/pet-sweep.jpg');
+let scissors = new Product('Scissors', './assets/scissors.jpg');
+let shark = new Product('Shark', './assets/shark.jpg');
+let sweep = new Product('Sweep', './assets/sweep.png');
+let tauntaun = new Product('Tauntaun', './assets/tauntaun.jpg');
+let unicorn = new Product('Unicorn', './assets/unicorn.jpg');
+let waterCan = new Product('Water Can', './assets/water-can.jpg');
+let wineGlass = new Product('Wine Glass', './assets/wine-glass.jpg');
+
 // Load from local storage --or-- create products
 function loadProducts() {
   let savedProducts = localStorage.getItem('productApp');
@@ -135,6 +155,10 @@ function clickHandler(event) {
     }
   }
   state.votesCast++;
+
+  // Call saveProducts() to update local storage
+  saveProducts();
+
   if (state.votesCast >= state.maxVotes) {
     localStorage.setItem('productApp', JSON.stringify(state));
     showTotals();
@@ -146,27 +170,7 @@ function clickHandler(event) {
 
 productContainer.addEventListener('click', clickHandler);
 
-let bag = new Product('Bag', './assets/bag.jpg');
-let banana = new Product('Banana', './assets/banana.jpg');
-let bathroom = new Product('Bathroom', './assets/bathroom.jpg');
-let boots = new Product('Boots', './assets/boots.jpg');
-let breakfast = new Product('Breakfast', './assets/breakfast.jpg');
-let bubblegum = new Product('Bubblegum', './assets/bubblegum.jpg');
-let chair = new Product('Chair', './assets/chair.jpg');
-let cthulhu = new Product('Cthulhu', './assets/cthulhu.jpg');
-let dogDuck = new Product('Dog Duck', './assets/dog-duck.jpg');
-let dragon = new Product('Dragon', './assets/dragon.jpg');
-let pen = new Product('Pen', './assets/pen.jpg');
-let petSweep = new Product('Pet Sweep', './assets/pet-sweep.jpg');
-let scissors = new Product('Scissors', './assets/scissors.jpg');
-let shark = new Product('Shark', './assets/shark.jpg');
-let sweep = new Product('Sweep', './assets/sweep.png');
-let tauntaun = new Product('Tauntaun', './assets/tauntaun.jpg');
-let unicorn = new Product('Unicorn', './assets/unicorn.jpg');
-let waterCan = new Product('Water Can', './assets/water-can.jpg');
-let wineGlass = new Product('Wine Glass', './assets/wine-glass.jpg');
-
 // Load and render products
-loadProducts();
 renderProducts();
+loadProducts();
 
