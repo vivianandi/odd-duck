@@ -55,24 +55,39 @@ function getRandomNumber() {
 
 // Render products
 function renderProducts() {
+  let productImage1 = document.querySelector('.product1 img');
+  let productImage2 = document.querySelector('.product2 img');
+  let productImage3 = document.querySelector('.product3 img');
+
   let product1, product2, product3;
 
+  // Ensure each product is unique and not in the previous set
   do {
-    product1 = getRandomNumber();
-    product2 = getRandomNumber();
-    product3 = getRandomNumber();
-  } while (product1 === product2 || product1 === product3 || product2 === product3);
+    product1 = state.products[getRandomNumber()];
+    product2 = state.products[getRandomNumber()];
+    product3 = state.products[getRandomNumber()];
+  } while (
+    product1 === product2 ||
+    product1 === product3 ||
+    product2 === product3 ||
+    state.previousPageProducts.includes(product1) ||
+    state.previousPageProducts.includes(product2) ||
+    state.previousPageProducts.includes(product3)
+  );
 
-  productImage1.src = state.products[product1].src;
-  productImage1.alt = state.products[product1].name;
-  productImage2.src = state.products[product2].src;
-  productImage2.alt = state.products[product2].name;
-  productImage3.src = state.products[product3].src;
-  productImage3.alt = state.products[product3].name;
+  productImage1.src = product1.src;
+  productImage1.alt = product1.name;
+  productImage2.src = product2.src;
+  productImage2.alt = product2.name;
+  productImage3.src = product3.src;
+  productImage3.alt = product3.name;
 
-  state.products[product1].views++;
-  state.products[product2].views++;
-  state.products[product3].views++;
+  product1.views++;
+  product2.views++;
+  product3.views++;
+
+  // Save the current set products for comparison in the next set
+  state.previousPageProducts = [product1, product2, product3];
 
   console.log(state.products);
 }
